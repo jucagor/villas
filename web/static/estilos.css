@@ -1,0 +1,100 @@
+body
+{
+    background: white;
+    color: #333;
+    text-align: center;
+    font-family: Arial;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+}
+
+a:link, a:visited, a:active {
+    text-decoration:none;
+}
+#cuerpotabla
+{
+    padding-top: 40px;
+    text-align: center;
+    margin: auto;
+}
+
+#titulotabla
+{
+    font-size: 40px;
+}
+
+#cabecera
+{
+    background: #37488b;
+    box-shadow: 0px 2px 20px 0px rgba(0,0,0,0.5);
+    color: white;
+    font-weight: bold;
+    text-align: left;
+    margin: 0;
+    font-size: 20px;
+    padding: 0.5em;
+    height: 50px;
+}
+
+#cabecera #logo
+{
+    width: 60px;
+    vertical-align: middle;
+}
+
+#cabecera #tagline
+{
+    padding: 0 0 0 1em;
+    font-weight: normal;
+    font-size: 0.8em;
+}
+
+#container
+{
+    width: 70%;
+    padding: 0;
+    text-align: left;
+    border: 1px solid #DDD;
+    margin: 0 auto;
+}
+
+#container h1
+{
+    font-size: 20px;
+}
+#post
+{
+    background: white;
+    padding: 1em;
+}
+
+#footer
+{
+    background: #37488b;
+    color: white;
+    text-align: center;
+    padding: 0.5em;
+}
+table
+{
+    border-collapse: collapse;
+    width: 50%;
+    height: 300px;
+}
+
+td, th
+{
+    border: 1px solid black;
+}
+#linkusuarios
+{
+    padding-left: 50px;
+    color: white;
+}
+
+#linkmonitoreo
+{
+    padding-left: 50px;
+    color: white;
+}

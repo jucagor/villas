@@ -1,0 +1,31 @@
+<!doctype html>
+  <head>
+    <title>Control de acceso Villas de la pradera</title>
+
+        <div id="cabecera">
+          <img id="logo" src="/static/LogoVillas.png" />
+          Villas de la pradera
+          <span id="tagline">Control de acceso Piscina</span>
+          {% if Logeo %}
+                <a id="linkusuarios" href="/usuarios" class="active">usuarios</a>
+                <a id="linkmonitoreo" href="/monitoreo" class="active">monitoreo</a>
+          {% endif %}
+        </div>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <ul class=flashes>
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+  </head>
+    {% block body %}
+  
+      <div id="cabecera">
+        Hyperblog
+        <span id="tagline">Tu blog de confianza</span>
+      </div>
+    {% endblock %}
+  

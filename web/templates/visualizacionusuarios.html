@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+    {% block body %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}" />
+    <div id="titulotabla">Usuarios adentro de la piscina</div>
+    <fieldset id="cuerpotabla">   
+      
+        <table> 
+        <th>
+            Apartamento
+        </th>    
+        <th>
+            Persona adentro
+        </th>
+        <th>
+          Usuario Bloqueado
+      </th>
+        {% for apto in range(datos.allapt|length) %} 
+        <tr>
+            <td>
+              {% if (datos.allapt[apto]|length) > 3 %}
+              {{datos.allapt[apto][:-3]}}-{{datos.allapt[apto][-3:]}}
+            {% else %}
+            {{datos.allapt[apto]}}            
+            {% endif %}
+            </td>
+            <td>
+                {{5-datos.alldata[apto][3]}}
+            </td>
+            <td>
+              {% if datos.alldata[apto][4]==0 %}
+                <p>No</p>
+              {% else %}
+                <p>Si</p>
+              {% endif %}
+          </td>
+          <td>
+            <button type="submit" name="button">Bloquear</button>
+          </td>
+            
+        </tr>
+        {% endfor %}
+        </table>
+    </fieldset>
+    
+    {% endblock %}
