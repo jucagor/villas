@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from flask import Flask, flash, request, redirect, render_template, session
 import time
 import sqlite3
@@ -7,7 +8,7 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 error=None
 Logeo=False
 #rutaBD= 'C:/Users/jcgr1/Desktop/base_de_datos_usuarios.db'
-rutaBD= 'C:/Users/camilo/Desktop/base_de_datos_usuarios_2.db'
+rutaBD= '/home/pi/Desktop/produccion/base_de_datos_usuarios.db'
 class datosdb:
     def __init__(self):
         self.data=[]
@@ -74,7 +75,7 @@ def login():
     if request.method == 'POST':
         if request.form['username'] != 'admin' or \
                 request.form['password'] != 'secret':
-            error = 'Contraseña invalida'
+            error = 'contraseña invalida'
         else:
             Logeo = True
             return redirect('/monitoreo')
@@ -113,4 +114,4 @@ def usuarios():
     
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0',port='88')
+    app.run(debug=True, host='0.0.0.0',port='80')
