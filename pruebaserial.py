@@ -59,7 +59,7 @@ class Lectura:
 
 
 arduino = serial.Serial('/dev/ttyACM0',baudrate=9600)
-rutaBD= '/home/pi/Desktop/projects/Villas_de_la_Pradera/Base_de_datos/base_de_datos_usuarios.db'
+rutaBD= '/home/pi/Desktop/produccion/base_de_datos_usuarios.db'
 while True:
     data= arduino.readline()[:-2]
     
