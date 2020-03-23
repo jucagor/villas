@@ -43,6 +43,19 @@ a:link, a:visited, a:active {
     vertical-align: middle;
 }
 
+#restartbutton
+{
+    width: 150px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+#blockbutton
+{
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
 #cabecera #tagline
 {
     padding: 0 0 0 1em;

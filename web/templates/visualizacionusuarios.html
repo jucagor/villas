@@ -34,7 +34,18 @@
               {% endif %}
           </td>
           <td>
-            <button type="submit" name="button">Bloquear</button>
+            <form method=post>
+              {% if datos.alldata[apto][4]==0 %}
+                <button id="blockbutton" type="submit" name="bloqueo" value="{{datos.allapt[apto]}}">Bloquear</button>
+              {% else %}
+                <button type="submit" name="desbloqueo" value="{{datos.allapt[apto]}}">Desbloquear</button>
+              {% endif %}
+            </form>
+          <td>
+            <form method=post>
+              <button id="restartbutton" type="submit" name="restartpass" value="{{datos.allapt[apto]}}">Resetear Pases</button>
+            </form>
+          </td>
           </td>
             
         </tr>

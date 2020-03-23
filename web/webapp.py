@@ -34,8 +34,34 @@ def leerdb():
         lista2.append(str(datos.alldata[i][0]))
     conn.close()
     datos.allapt=lista2
-    print(str(datos.apt[2]))
     return datos
+
+def bloqueouser(apto):
+    query = 'UPDATE Usuarios SET Bloqueo=1'
+    query += ' WHERE ID = "{}"'.format(apto)
+    conn= sqlite3.connect(rutaBD)
+    cursor = conn.cursor()
+    registro=cursor.execute(query)
+    conn.commit()
+    conn.close()
+
+def desbloqueouser(apto):
+    query = 'UPDATE Usuarios SET Bloqueo=0'
+    query += ' WHERE ID = "{}"'.format(apto)
+    conn= sqlite3.connect(rutaBD)
+    cursor = conn.cursor()
+    registro=cursor.execute(query)
+    conn.commit()
+    conn.close()
+
+def restartpass(apto):
+    query = 'UPDATE Usuarios SET PasDisponibles=5'
+    query += ' WHERE ID = "{}"'.format(apto)
+    conn= sqlite3.connect(rutaBD)
+    cursor = conn.cursor()
+    registro=cursor.execute(query)
+    conn.commit()
+    conn.close() 
 
 @app.route('/')
 def index():
@@ -46,7 +72,6 @@ def login():
     global error
     global Logeo
     if request.method == 'POST':
-        print(request.form)
         if request.form['username'] != 'admin' or \
                 request.form['password'] != 'secret':
             error = 'Contraseña invalida'
@@ -65,10 +90,21 @@ def monitoreo():
         error= 'debe autenticarse'
         return redirect('/login')
 
-@app.route('/usuarios')
+@app.route('/usuarios', methods=['GET','POST'])
 def usuarios():
-    datos=leerdb()
     if Logeo:
+        if request.method == 'POST':
+            try: 
+                if request.form['bloqueo']:
+                    bloqueouser(request.form['bloqueo'])
+            except:
+                try:             
+                    if request.form['desbloqueo']:
+                        desbloqueouser(request.form['desbloqueo'])
+                except:
+                    if request.form['restartpass']:
+                        restartpass(request.form['restartpass'])
+        datos=leerdb()
         return render_template('visualizacionusuarios.html', datos=datos, Logeo=Logeo)
     else:
         global error
