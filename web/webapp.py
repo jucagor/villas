@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, flash, request, redirect, render_template, session
-import time
+import datetime
 import sqlite3
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 error=None
 Logeo=False
-#rutaBD= 'C:/Users/jcgr1/Desktop/base_de_datos_usuarios.db'
-rutaBD= '/home/pi/Desktop/produccion/base_de_datos_usuarios.db'
+rutaBD= 'C:/Users/camilo/villas/base_de_datos_usuarios.db'
+#rutaBD= '/home/pi/Desktop/produccion/base_de_datos_usuarios.db'
 class datosdb:
     def __init__(self):
         self.data=[]
@@ -64,8 +64,21 @@ def restartpass(apto):
     conn.commit()
     conn.close() 
 
+def Guardartime(apto):
+    hora=datetime.datetime.now()
+    query = 'UPDATE Usuarios SET UltimoUso="{}"'.format((str(hora)[0:19]))
+    query += ' WHERE ID = "{}"'.format(apto)
+    conn= sqlite3.connect(rutaBD)
+    cursor = conn.cursor()
+    registro=cursor.execute(query)
+    conn.commit()        
+    conn.close()
+
+
 @app.route('/')
 def index():
+    global Logeo
+    Logeo = False
     return redirect('/login')
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -78,6 +91,7 @@ def login():
             error = 'contraseña invalida'
         else:
             Logeo = True
+            error=None
             return redirect('/monitoreo')
     return render_template('login.html', error=error)
 
@@ -85,7 +99,7 @@ def login():
 def monitoreo():
     datos=leerdb()
     if Logeo:
-        return render_template('monitoreo.html', datos=datos, Logeo=Logeo)
+        return render_template('tablamonitoreo.html', datos=datos)
     else:
         global error
         error= 'debe autenticarse'
@@ -105,8 +119,9 @@ def usuarios():
                 except:
                     if request.form['restartpass']:
                         restartpass(request.form['restartpass'])
+                        Guardartime(request.form['restartpass'])
         datos=leerdb()
-        return render_template('visualizacionusuarios.html', datos=datos, Logeo=Logeo)
+        return render_template('tablausuarios.html', datos=datos, Logeo=Logeo)
     else:
         global error
         error= 'debe autenticarse'
