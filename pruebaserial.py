@@ -1,9 +1,8 @@
 import serial
 import sqlite3
-import RPi.GPIO as GPIO #Librería para controlar GPIO
-import time #Librería para funciones relacionadas con tiempo (sleep)
+import datetime #Librería para funciones relacionadas con tiempo (sleep)
 Leer = False
-Apertura = True
+Apertura = True         #variable para bloquear o cerrar definitivamente el torniquete
 class Lectura:
     def __init__(self,dato):
         self.indicador = dato[9]
@@ -30,6 +29,7 @@ class Lectura:
         self.Bloqueada=self.Registro[4]
         self.Master=self.Registro[5]
         self.MasterApertura=self.Registro[6]
+        self.UsoTotal=self.Registro[8]
         print('apartamento numero:',self.Apto)
         print('pases totales tarjeta:',self.PasTotal)
         print('pases disponibles:',self.PasDispon)
@@ -55,8 +55,23 @@ class Lectura:
         cursor = conn.cursor()
         registro=cursor.execute(query)
         conn.commit()
-        conn.close()
 
+    def GuardarIngreso(self):
+        hora=datetime.datetime.now()
+        query = 'UPDATE Usuarios SET UltimoUso="{}"'.format((str(hora)[0:19]))
+        query += ' WHERE Codigo = "{}"'.format(LecturaActual.UID)
+        if self.UsoTotal ==None:
+            query2 = 'UPDATE Usuarios SET UsoTotal="{}"'.format(1)
+            query2 += ' WHERE Codigo = "{}"'.format(LecturaActual.UID)
+        else:
+            query2 = 'UPDATE Usuarios SET UsoTotal="{}"'.format((self.UsoTotal+1))
+            query2 += ' WHERE ID = "{}"'.format(LecturaActual.UID)
+        conn= sqlite3.connect(rutaBD)
+        cursor = conn.cursor()
+        registro=cursor.execute(query)
+        registro2=cursor.execute(query2)
+        conn.commit()        
+        conn.close()
 
 arduino = serial.Serial('/dev/ttyACM0',baudrate=9600)
 rutaBD= '/home/pi/Desktop/produccion/base_de_datos_usuarios.db'
@@ -81,7 +96,7 @@ while True:
             else:
                 Apertura=True
         if Apertura:
-            if LecturaActual.indicador == '0':
+            if LecturaActual.indicador == '0': #se compara la entrada
                 if LecturaActual.Master==1:
                     print ('Entrando Master...')
                     arduino.write(str.encode('E'))
@@ -91,6 +106,7 @@ while True:
                     print('Entrando...')
                     arduino.write(str.encode('E'))
                     LecturaActual.PasDispon = LecturaActual.PasDispon-1
+                    LecturaActual.GuardarIngreso()
                     print('nuevos pases disponibles', LecturaActual.PasDispon)
                 else:
                     print('no puede entrar, pases no disponibles')
