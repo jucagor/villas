@@ -1,6 +1,6 @@
 import serial
 import sqlite3
-import datetime #Librería para funciones relacionadas con tiempo (sleep)
+import datetime #Libreria para funciones relacionadas con tiempo (sleep)
 Leer = False
 Apertura = True         #variable para bloquear o cerrar definitivamente el torniquete
 class Lectura:

@@ -7,8 +7,7 @@ app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 error=None
 Logeo=False
-rutaBD= 'C:/Users/camilo/villas/base_de_datos_usuarios.db'
-#rutaBD= '/home/pi/Desktop/produccion/base_de_datos_usuarios.db'
+rutaBD= '/home/pi/Desktop/produccion/base_de_datos_usuarios.db'
 class datosdb:
     def __init__(self):
         self.data=[]
