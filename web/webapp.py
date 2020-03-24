@@ -86,7 +86,7 @@ def login():
     global Logeo
     if request.method == 'POST':
         if request.form['username'] != 'admin' or \
-                request.form['password'] != 'secret':
+                request.form['password'] != '12345villas':
             error = 'contrasena invalida'
         else:
             Logeo = True
@@ -118,7 +118,6 @@ def usuarios():
                 except:
                     if request.form['restartpass']:
                         restartpass(request.form['restartpass'])
-                        Guardartime(request.form['restartpass'])
         datos=leerdb()
         return render_template('tablausuarios.html', datos=datos, Logeo=Logeo)
     else:
@@ -128,4 +127,4 @@ def usuarios():
     
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0',port='80')
+    app.run(host='0.0.0.0',port='80')
