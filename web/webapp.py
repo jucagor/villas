@@ -87,7 +87,7 @@ def login():
     if request.method == 'POST':
         if request.form['username'] != 'admin' or \
                 request.form['password'] != 'secret':
-            error = 'contraseña invalida'
+            error = 'contrasena invalida'
         else:
             Logeo = True
             error=None
