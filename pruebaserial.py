@@ -72,20 +72,29 @@ class Lectura:
         registro2=cursor.execute(query2)
         conn.commit()        
         conn.close()
-try:    
-    arduino = serial.Serial('/dev/ttyACM0',baudrate=9600)
-    print("arduino en puerto ttyACM0")
-except:
-    arduino = serial.Serial('/dev/ttyACM1',baudrate=9600)
-    print("arduino en pUerto ttyACM1")
+conectado=False
+while conectado==False:
+    try:    
+        arduino = serial.Serial('/dev/ttyACM0',baudrate=9600)
+        print("arduino en puerto ttyACM0")
+        conectado=True
+    except:
+        try:
+            arduino = serial.Serial('/dev/ttyACM1',baudrate=9600)
+            print("arduino en puerto ttyACM1")
+            conectado=True
+        except:
+            print("placa arduino no disponible")
+            time.sleep(1)
     
 rutaBD= '/home/pi/Desktop/produccion/base_de_datos_usuarios.db'
+data=0
 while True:
     try:
         data= arduino.readline()[:-2]
     except:
         print("un error ha ocurrido")
-        time.sleep(1)
+        time.sleep(2)
         try:    
             arduino = serial.Serial('/dev/ttyACM0',baudrate=9600)
             print("arduino en puerto ttyACM0")
