@@ -1,4 +1,5 @@
 import serial
+import time
 import sqlite3
 import datetime #Libreria para funciones relacionadas con tiempo (sleep)
 Leer = False
@@ -8,7 +9,6 @@ class Lectura:
         self.indicador = dato[9]
         self.UID = dato[22:33]
         print(self.UID)
-        print(__name__)
     
     def informacionDB(self):
         global Leer
@@ -72,11 +72,38 @@ class Lectura:
         registro2=cursor.execute(query2)
         conn.commit()        
         conn.close()
-
-arduino = serial.Serial('/dev/ttyACM0',baudrate=9600)
+conectado=False
+while conectado==False:
+    try:    
+        arduino = serial.Serial('/dev/ttyACM0',baudrate=9600)
+        print("arduino en puerto ttyACM0")
+        conectado=True
+    except:
+        try:
+            arduino = serial.Serial('/dev/ttyACM1',baudrate=9600)
+            print("arduino en puerto ttyACM1")
+            conectado=True
+        except:
+            print("placa arduino no disponible")
+            time.sleep(1)
+    
 rutaBD= '/home/pi/Desktop/produccion/base_de_datos_usuarios.db'
+data=0
 while True:
-    data= arduino.readline()[:-2]
+    try:
+        data= arduino.readline()[:-2]
+    except:
+        print("un error ha ocurrido")
+        time.sleep(2)
+        try:    
+            arduino = serial.Serial('/dev/ttyACM0',baudrate=9600)
+            print("arduino en puerto ttyACM0")
+        except:
+            try:
+                arduino = serial.Serial('/dev/ttyACM1',baudrate=9600)
+                print("arduino en puerto ttyACM1")
+            except:
+                print("placa arduino no disponible")
     
     #data = arduino.read(40)
     if data:

@@ -2,7 +2,7 @@ from flask import Flask, flash, request, redirect, render_template, session
 import datetime
 import sqlite3
 
-rutaBD= 'C:/Users/camilo/villas/base_de_datos_usuarios.db'
+rutaBD= '/home/pi/Desktop/produccion/base_de_datos_usuarios.db'
 
 class Lectura:
     def __init__(self,dato):
@@ -80,7 +80,7 @@ if __name__ == '__main__':
         data=int(input("ingrese numero de apartamento: "))
         LecturaActual=Lectura(data)
         LecturaActual.informacionDB()
-        accion=input("desea simular un ingreso o una salida? (Escriba porfavor las palabras: 'ingreso' 'salida') ")
+        accion=str(input("desea simular un ingreso o una salida? (Escriba porfavor las palabras: 'ingreso' 'salida') "))
         if accion == ('ingreso'):
             print(LecturaActual.numeroapto," Entrando")
             LecturaActual.PasDispon = LecturaActual.PasDispon-1
