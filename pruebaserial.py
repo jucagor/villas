@@ -1,7 +1,11 @@
 import serial
+from gpiozero import LED
 import time
 import sqlite3
 import datetime #Libreria para funciones relacionadas con tiempo (sleep)
+
+breset= LED(17)
+breset.on()
 Leer = False
 Apertura = True         #variable para bloquear o cerrar definitivamente el torniquete
 class Lectura:
@@ -65,7 +69,7 @@ class Lectura:
             query2 += ' WHERE Codigo = "{}"'.format(LecturaActual.UID)
         else:
             query2 = 'UPDATE Usuarios SET UsoTotal="{}"'.format((self.UsoTotal+1))
-            query2 += ' WHERE ID = "{}"'.format(LecturaActual.UID)
+            query2 += ' WHERE Codigo = "{}"'.format(LecturaActual.UID)
         conn= sqlite3.connect(rutaBD)
         cursor = conn.cursor()
         registro=cursor.execute(query)
@@ -122,7 +126,7 @@ while True:
                 Apertura=False
             else:
                 Apertura=True
-        if Apertura:
+        if Apertura and not LecturaActual.Bloqueada :
             if LecturaActual.indicador == '0': #se compara la entrada
                 if LecturaActual.Master==1:
                     print ('Entrando Master...')
@@ -154,10 +158,15 @@ while True:
                     arduino.write(str.encode('F'))
             LecturaActual.GuardarDB()
             Leer=False
+            print(datetime.datetime.now())
+            #breset.off()
+            #time.sleep(0.1)
+            #breset.on()
         else:
-            print('Torniquete Bloqueado por Apertura')
+            print('Torniquete Bloqueado por Apertura o tarjeta Bloqueada')
             arduino.write(str.encode('A'))
             Leer=False
+            print(datetime.datetime.now())
     
             
             

@@ -19,7 +19,7 @@ class datosdb:
 def leerdb():
     conn= sqlite3.connect(rutaBD)
     cursor = conn.cursor()
-    query1 = 'SELECT * FROM Usuarios where PasDisponibles < ("5")'
+    query1 = 'SELECT * FROM Usuarios where PasDisponibles < ("4")'
     query2 = 'SELECT * FROM Usuarios'
     datos=datosdb
     datos.data= cursor.execute(query1).fetchall()
@@ -55,7 +55,7 @@ def desbloqueouser(apto):
     conn.close()
 
 def restartpass(apto):
-    query = 'UPDATE Usuarios SET PasDisponibles=5'
+    query = 'UPDATE Usuarios SET PasDisponibles=4'
     query += ' WHERE ID = "{}"'.format(apto)
     conn= sqlite3.connect(rutaBD)
     cursor = conn.cursor()
