@@ -154,7 +154,7 @@ class Torniquete:
 if __name__ == "__main__":
 
     basedir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-    datastore_path = basedir + "base_de_datos_usuarios.db"
+    datastore_path = basedir + "/base_de_datos_usuarios.db"
     print(
         f"Base de datos en: {datastore_path}".format(
             datastore_path=datastore_path))
@@ -218,4 +218,4 @@ if __name__ == "__main__":
                 torniquete.arduino.write(
                     str.encode(TipoRespuesta.SALIDA.value))
 
-            print(print(datetime.datetime.now()))
+            print(datetime.datetime.now())
