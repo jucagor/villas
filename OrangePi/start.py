@@ -127,6 +127,8 @@ class Torniquete:
             query2 = 'UPDATE Usuarios SET UsoTotal="{}"'.format(1)
             query2 += ' WHERE Codigo = "{}"'.format(self.uid)
         else:
+            print('++++++++++++++++')
+            print(self.UsoTotal)
             query2 = 'UPDATE Usuarios SET UsoTotal="{}"'.format(
                 (self.UsoTotal + 1))
             query2 += ' WHERE Codigo = "{}"'.format(self.uid)
@@ -183,15 +185,11 @@ if __name__ == "__main__":
 
             if respuesta == TipoRespuesta.ENTRADA_NO_DISPONIBLE:
                 print("No puede entrar, pases no disponibles")
-                torniquete.arduino.write(
-                    str.encode(TipoRespuesta.ENTRADA_NO_DISPONIBLE.value)
-                )
+                torniquete.arduino.write(str.encode('F'))  # str.encode(TipoRespuesta.ENTRADA_NO_DISPONIBLE.value)
 
             if respuesta == TipoRespuesta.SALIDA_NO_DISPONIBLE:
                 print("No puede salir, pases no disponibles")
-                torniquete.arduino.write(
-                    str.encode(TipoRespuesta.SALIDA_NO_DISPONIBLE.value)
-                )
+                torniquete.arduino.write(str.encode('F'))  # str.encode(TipoRespuesta.SALIDA_NO_DISPONIBLE.value)
 
             if respuesta == TipoRespuesta.ENTRADA_MASTER:
                 print("Entrando Master")
