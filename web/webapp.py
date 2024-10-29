@@ -2,12 +2,14 @@
 from flask import Flask, flash, request, redirect, render_template, session
 import datetime
 import sqlite3
+import os
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 error=None
 Logeo=False
-rutaBD= '/home/pi/Desktop/produccion/base_de_datos_usuarios.db'
+basedir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+rutaBD = basedir + "/base_de_datos_usuarios.db"
 class datosdb:
     def __init__(self):
         self.data=[]
@@ -48,6 +50,15 @@ def bloqueouser(apto):
 def desbloqueouser(apto):
     query = 'UPDATE Usuarios SET Bloqueo=0'
     query += ' WHERE ID = "{}"'.format(apto)
+    conn= sqlite3.connect(rutaBD)
+    cursor = conn.cursor()
+    registro=cursor.execute(query)
+    conn.commit()
+    conn.close()
+    
+def reset_all_pases(apto):
+    query = 'UPDATE Usuarios SET PasDisponibles = 4'
+    query += ' WHERE PasDisponibles < 4'
     conn= sqlite3.connect(rutaBD)
     cursor = conn.cursor()
     registro=cursor.execute(query)
@@ -124,7 +135,31 @@ def usuarios():
         global error
         error= 'debe autenticarse'
         return redirect('/login')
-    
+
+
+@app.route('/configuracion', methods=['GET','POST'])
+def configurar():
+    if Logeo:
+        if request.method == 'POST':
+            try:
+                if request.form['block']:
+                    # Bloquear el torniquete
+                    pass
+            except:
+                try:
+                    if request.form['desbloqueo']:
+                        desbloqueouser(request.form['desbloqueo'])
+                except:
+                    if request.form['restartallpass']:
+                        # Resetear todas las tarjetas
+                        pass
+        datos=leerdb()
+        return render_template('configuracion.html', datos=datos, Logeo=Logeo)
+    else:
+        global error
+        error= 'debe autenticarse'
+        return redirect('/login')
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port='80')
