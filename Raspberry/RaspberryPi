@@ -1,11 +1,8 @@
 import serial
-from gpiozero import LED
 import time
 import sqlite3
 import datetime #Libreria para funciones relacionadas con tiempo (sleep)
 
-breset= LED(17)
-breset.on()
 Leer = False
 Apertura = True         #variable para bloquear o cerrar definitivamente el torniquete
 class Lectura:
@@ -167,7 +164,3 @@ while True:
             arduino.write(str.encode('A'))
             Leer=False
             print(datetime.datetime.now())
-    
-            
-            
-            

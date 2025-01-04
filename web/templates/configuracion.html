@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
 
@@ -17,9 +17,9 @@
 
   <!-- Custom styles for this template -->
   <link href="static/sb-admin-2.min.css" rel="stylesheet">
-  
+
   <!-- Custom styles for this page -->
-  <link href="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">  <!-- Custom fonts for this template --> <!-- Custom fonts for this template --> <!-- Custom fonts for this template -->
+  <link href="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 
 </head>
 
@@ -52,16 +52,16 @@
 
       <li class="nav-item">
         <a class="nav-link" href="/configuracion">
-          <span>configuracion</span></a>
+          <span>confifguracion</span></a>
       </li>
 
       <hr class="sidebar-divider d-none d-md-block">
 
       <!-- Sidebar Toggler (Sidebar) -->
-
+      <div class="text-center d-none d-md-inline">
+      </div>
 
     </ul>
-    <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -76,9 +76,6 @@
           <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
             <i class="fa fa-bars"></i>
           </button>
-
-          <!-- Topbar Search -->
-
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
 
@@ -103,99 +100,49 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">Base de datos Usuarios</h1>
-          <p class="mb-4">A continuacion se muestran la lista de toda la base de datos de usuarios</a>.</p>
+          <h1 class="h3 mb-2 text-gray-800">Configuracion del control de acceso</h1>
+          <p class="mb-4">A continuacion se muestran los usuarios que se encuentra en estos momentos dentro de la piscina</a>.</p>
 
           <!-- DataTales Example -->
-          <div class="card shadow mb-4">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Base de Datos Usuarios</h6>
-            </div>
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                  <thead>
-                    <tr>
-                      <th>Apartamento</th>
-                      <th>Personas adentro</th>
-                      <th>Hora de Ultimo Ingreso</th>
-                      <th>Usuario bloqueado</th>
-                      <th>UID</th>
-                      <th>usos totales</th>
-                      <th>Bloquear Usuario</th>
-                      <th>Resetear pases</th>
-                    </tr>
-                  </thead>
-                  <tfoot>
-                    <tr>
-                      <th>Apartamento</th>
-                      <th>Personas adentro</th>
-                      <th>Hora de Ultimo Ingreso</th>
-                      <th>Usuario bloqueado</th>
-                      <th>UID</th>
-                      <th>usos totales</th>
-                      <th>Bloquear Usuario</th>
-                      <th>Resetear pases</th>
-                    </tr>
-                  </tfoot>
-                  <tbody>
-                  {% for apto in range(datos.allapt|length) %} 
-                    <tr>
-                      <td>
-                        {% if (datos.allapt[apto]|length) > 3 %}
-                          {{datos.allapt[apto][:-3]}}-{{datos.allapt[apto][-3:]}}
-                        {% else %}
-                          {{datos.allapt[apto]}}            
-                        {% endif %}
-                      </td>
-                      <td>
-                        {{4-datos.alldata[apto][3]}}
-                      </td>
-                      <td>
-                        {% if datos.alldata[apto][7]==None %}
-                          <p>0</p>
-                        {% else %}
-                          <p>{{datos.alldata[apto][7]}}</p>
-                        {% endif %}
-                      </td>
-                      <td>
-                        {% if datos.alldata[apto][4]==0 %}
-                          <p>No</p>
-                        {% else %}
-                          <p>Si</p>
-                        {% endif %}
-                      </td>
-                      <td>
-                        {{datos.alldata[apto][1]}}
-                      </td>
-                      <td>
-                        {% if datos.alldata[apto][8]==None %}
-                        <p>0</p>
-                      {% else %}
-                        <p>{{datos.alldata[apto][8]}}</p>
-                      {% endif %}
-                      </td>
-                      <td>
+          <div class="row">
+          <div class="col-lg-6">
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Split Buttons with Icon</h6>
+                </div>
+                <div class="card-body">
+                    <p>Works with any button colors, just use the <code>.btn-icon-split</code> class and
+                        the markup in the examples below. The examples below also use the
+                        <code>.text-white-50</code> helper class on the icons for additional styling,
+                        but it is not required.</p>
+                    <a href="#" class="btn btn-danger btn-icon-split">
                         <form method=post>
-                          {% if datos.alldata[apto][4]==0 %}
-                            <button class="btn btn-primary btn-user btn-block" id="blockbutton" type="submit" name="bloqueo" value="{{datos.allapt[apto]}}">Bloquear</button>
-                          {% else %}
-                            <button class="btn btn-primary btn-user btn-block" type="submit" name="desbloqueo" value="{{datos.allapt[apto]}}">Desbloquear</button>
-                          {% endif %}
+                          <button class="btn btn-danger btn-user btn-block" id="restartbutton" type="submit" name="block" value="{{datos.allapt[apto]}}">Bloquear Torniquete</button>
                         </form>
-                      </td>
-                      <td>
-                        <form method=post>
-                          <button class="btn btn-primary btn-user btn-block" id="restartbutton" type="submit" name="restartpass" value="{{datos.allapt[apto]}}">Resetear Pases</button>
-                        </form>
-                      </td>
-                    </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-              </div>
+                    </a>
+                    <div class="my-2"></div>
+                    <a href="#" class="btn btn-primary btn-icon-split">
+                      <form method=post>
+                        <button class="btn btn-primary btn-user btn-block" id="restartbutton" type="submit" name="restartallpass" value="{{datos.allapt[apto]}}">Resetear todos los Pases</button>
+                      </form>
+                    </a>
+                </div>
             </div>
           </div>
+          <div class="col-lg-6">
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Detalles</h6>
+            </div>
+            <div class="card-body">
+                <a href="#" class="btn btn-success btn-block">
+                    Torniquete desbloqueado</a>
+                <a href="#" class="btn btn-facebook btn-block">Otro tipo</a>
+
+            </div>
+          </div>
+        </div>
 
         </div>
         <!-- /.container-fluid -->
@@ -253,14 +200,5 @@
   <!-- Custom scripts for all pages-->
   <script src="{{ url_for('static', filename='js/sb-admin-2.min.js') }}"></script>
 
-  <!-- Page level plugins -->
-  <script src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="{{ url_for('static', filename='js/demo/datatables-demo.js') }}"></script>
-
-
 </body>
-
 </html>
